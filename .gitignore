@@ -31,4 +31,4 @@ auth.json
 
 /storage
 composer
-/bootstrap
+#/bootstrap
