@@ -1,0 +1,27 @@
+name: Laravel Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Deploy
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd /var/www/html/allinone
+            git pull origin main
+            composer install --no-dev
+            php artisan migrate --force
+            php artisan optimize
